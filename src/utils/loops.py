@@ -70,7 +70,7 @@ def eval_loop(
 ) -> list[float]:
     """
     Evaluation loop for MovieDataset. This function returns a list of
-        batch-wise mean loss.
+    batch-wise mean loss.
 
     :param torch.nn.Module model: The model used to make inference.
     :param torch.nn.Module loss_fn: The loss function used to compute loss.

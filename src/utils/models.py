@@ -3,9 +3,9 @@ from torch import nn
 from typing import Iterable
 
 
-class MLPClassifier(nn.Module):
+class MLPRegressor(nn.Module):
     """
-    A Regression using Multi-layer Perceptron architecture for the MovieDataset.
+    A regression model for the MovieDataset using Multi-layer Perceptron architecture.
     """
     def __init__(self,
         input_dim: int,
@@ -13,7 +13,7 @@ class MLPClassifier(nn.Module):
         activation_fn: nn.Module | None = None
     ):
         """
-        Initialize a Multi-layer Percetron Classifier. By default, the network
+        Initialize a Multi-layer Percetron Regressor. By default, the network
         comprises of four hidden layers of dimenion 512 with Leaky ReLU activation
         of negative slope 0.04. Furthermore, between each hidden layer is a batch
         normalization layer for stability.

@@ -13,10 +13,26 @@ tokenize = lambda description: _disbert_tokenizer(
 )
 
 def train_loop(
-    model, loss_fn,
-    optimizer, dataloader,
+    model: torch.nn.Module,
+    loss_fn: torch.nn.Module,
+    optimizer: torch.optim.Optimizer,
+    dataloader: torch.utils.data.DataLoader,
     use_gpu: bool = False
-):
+) -> list[float]:
+    """
+    Training loop for MovieDataset. This function returns a list of batch-wise mean loss.
+
+    :param torch.nn.Module model: The model to optimize.
+    :param torch.nn.Module loss_fn: The loss function to optimize to.
+    :param torch.optim.Optimizer optimizer: The optimization object.
+    :param torch.utils.data.DataLoader dataloader: The dataloader to load batches
+        of training data.
+    :param bool use_gpu: Whether or not to train on GPU. This is `False` by default.
+
+    :return: A list of float, each element in this list is the average loss for the
+        corresponding batch.
+    :rtype: list[float]
+    """
     model.train()
     if use_gpu: _disbert.cuda()
     else: _disbert.cpu()
@@ -47,16 +63,31 @@ def train_loop(
 
 @torch.no_grad()
 def eval_loop(
-    model, loss_fn,
-    test_loader,
+    model: torch.nn.Module,
+    loss_fn: torch.nn.Module,
+    dataloader: torch.utils.data.DataLoader,
     use_gpu: bool = False
-):
+) -> list[float]:
+    """
+    Evaluation loop for MovieDataset. This function returns a list of
+        batch-wise mean loss.
+
+    :param torch.nn.Module model: The model used to make inference.
+    :param torch.nn.Module loss_fn: The loss function used to compute loss.
+    :param torch.utils.data.DataLoader dataloader: The dataloader to load batches
+        of test data.
+    :param bool use_gpu: Whether or not to do inference on GPU. This is `False` by default.
+    
+    :return: A list of float, each element in this list is the average loss for the
+        corresponding batch.
+    :rtype: list[float]
+    """
     model.eval()
     if use_gpu: _disbert.cuda()
     else: _disbert.cpu()
 
     losses = []
-    for stats, des, ratings in test_loader:
+    for stats, des, ratings in dataloader:
         tokens = tokenize(des)
         if use_gpu:
             tokens_id = tokens['input_ids'].cuda()

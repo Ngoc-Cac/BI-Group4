@@ -1,0 +1,10 @@
+# Scientific computation libs
+numpy
+pandas
+scikit-learn
+
+# Visualization
+matplotlib
+
+# Jupyter notebok stuff
+ipykernel

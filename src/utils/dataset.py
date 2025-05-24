@@ -4,6 +4,10 @@ import torch
 from torch.utils.data import Dataset
 
 class MovieDataset(Dataset):
+    """
+    Dataset for loading movies data. This object is indexable and return a
+        tuple (movie_statistics, movie_description, movie_rating).
+    """
     def __init__(self, movie_df):
         self.movie_stats = torch.tensor(movie_df.drop(['description', 'IMDB_Rating'], axis=1).to_numpy())
         self.movie_des = movie_df['description']
